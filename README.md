@@ -1,4 +1,14 @@
-placid
-======
+placid README
+==================
 
-personal cms/blog
+Getting Started
+---------------
+
+- cd <directory containing this file>
+
+- $venv/bin/python setup.py develop
+
+- $venv/bin/initialize_placid_db development.ini
+
+- $venv/bin/pserve development.ini
+
