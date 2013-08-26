@@ -5,17 +5,25 @@ from sqlalchemy.exc import DBAPIError
 
 from .models import (
     DBSession,
-    MyModel,
+    SiteParamModel,
     )
 
 
-@view_config(route_name='home', renderer='templates/mytemplate.pt')
-def my_view(request):
+@view_config(route_name='/',renderer='templates/index.pt')
+def index_view(request):
     try:
-        one = DBSession.query(MyModel).filter(MyModel.name == 'one').first()
+        siteparam = DBSession.query(SiteParamModel).filter(SiteParamModel.name == 'sitename').first()
     except DBAPIError:
-        return Response(conn_err_msg, content_type='text/plain', status_int=500)
-    return {'one': one, 'project': 'placid'}
+        return Response(conn_err_msg,content_type='text/plain', status_int=500)
+    return {'sitename':siteparam.value}
+
+#@view_config(route_name='home', renderer='templates/mytemplate.pt')
+#def my_view(request):
+#    try:
+#        one = DBSession.query(MyModel).filter(MyModel.name == 'one').first()
+#    except DBAPIError:
+#        return Response(conn_err_msg, content_type='text/plain', status_int=500)
+#    return {'one': one, 'project': 'placid'}
 
 conn_err_msg = """\
 Pyramid is having a problem using your SQL database.  The problem
