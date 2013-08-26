@@ -1,6 +1,7 @@
 import os
 import sys
 import transaction
+import datetime
 
 from sqlalchemy import engine_from_config
 
@@ -11,8 +12,11 @@ from pyramid.paster import (
 
 from ..models import (
     DBSession,
-    MyModel,
     Base,
+    SiteParamModel,
+    UserModel,
+    BlogModel,
+    CommentModel,
     )
 
 
@@ -33,5 +37,8 @@ def main(argv=sys.argv):
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
     with transaction.manager:
-        model = MyModel(name='one', value=1)
-        DBSession.add(model)
+        #model = MyModel(name='one', value=1)
+        spmodel = SiteParamModel(name='sitename',value='My Placid Website')
+        DBSession.add(spmodel)
+        bmodel = BlogModel(title='First!!1!',content='My first blog post!',posted=datetime.datetime.now(),modified=datetime.datetime.now())
+        DBSession.add(bmodel)
